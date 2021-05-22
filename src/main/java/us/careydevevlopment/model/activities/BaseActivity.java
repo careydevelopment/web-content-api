@@ -12,16 +12,16 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
  * Whether it's a task, a to-do, an appointment, or taking out the garbage,
  * it's an activity.
  */
-public class Activity {
+public abstract class BaseActivity {
 
     @NotNull(message = "Please include an activity type")
-    protected ActivityType type;
+    protected BaseActivityType type;
     
     @NotBlank(message = "Please provide a title for this activity")
     @Size(max = 50, message = "Activity name must be between 1 and 50 characters")
     protected String title;
     
-    protected ActivityOutcome outcome;
+    protected BaseActivityOutcome outcome;
     
     @Size(max = 512, message = "Activity notes must not exceed 512 characters")
     protected String notes;
@@ -36,11 +36,11 @@ public class Activity {
     protected Long endDate;
     
     
-    public ActivityType getType() {
+    public BaseActivityType getType() {
         return type;
     }
 
-    public void setType(ActivityType type) {
+    public void setType(BaseActivityType type) {
         this.type = type;
     }
 
@@ -52,11 +52,11 @@ public class Activity {
         this.title = title;
     }
 
-    public ActivityOutcome getOutcome() {
+    public BaseActivityOutcome getOutcome() {
         return outcome;
     }
 
-    public void setOutcome(ActivityOutcome outcome) {
+    public void setOutcome(BaseActivityOutcome outcome) {
         this.outcome = outcome;
     }
 

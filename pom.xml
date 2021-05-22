@@ -6,7 +6,7 @@
     <description>Classes to handle activities, to-dos, tasks, appointments, etc.</description>
     <url>https://github.com/careydevelopment/activities</url>
     
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-RELEASE</version>
     
     <dependencies>
 		<dependency>

@@ -12,7 +12,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
  * Maybe the contact wants to talk more about the product next week.
  * Or maybe the contact says he's definitely not interested.
  */
-public class ActivityOutcome {
+public abstract class BaseActivityOutcome {
 
     @NotBlank(message = "Please provide a name for this activity outcome")
     @Size(max = 20, message = "Activity outcome name must be between 1 and 20 characters")

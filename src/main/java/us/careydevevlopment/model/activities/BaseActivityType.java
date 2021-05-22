@@ -16,14 +16,12 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
  * 
  * Example types include appointment, meeting, chat, email, or taking out the garbage.
  */
-public class ActivityType {
+public abstract class BaseActivityType {
 
     @NotBlank(message = "Please provide a name for this activity type")
     @Size(max = 20, message = "Activity type name must be between 1 and 20 characters")
     protected String name;
     
-    protected String icon;
-
     @NotNull(message = "Please include an activity type creator")
     protected ActivityTypeCreator activityTypeCreator;
     
@@ -31,7 +29,7 @@ public class ActivityType {
     protected Boolean usesLocation = false;
     protected Boolean usesEndDate = false;
     
-    protected List<ActivityOutcome> possibleOutcomes = new ArrayList<>();
+    protected List<BaseActivityOutcome> possibleOutcomes = new ArrayList<>();
         
     public Boolean getRequiresOutcome() {
         return requiresOutcome;
@@ -40,10 +38,10 @@ public class ActivityType {
         this.requiresOutcome = requiresOutcome;
     }
     
-    public List<ActivityOutcome> getPossibleOutcomes() {
+    public List<BaseActivityOutcome> getPossibleOutcomes() {
         return possibleOutcomes;
     }
-    public void setPossibleOutcomes(List<ActivityOutcome> possibleOutcomes) {
+    public void setPossibleOutcomes(List<BaseActivityOutcome> possibleOutcomes) {
         this.possibleOutcomes = possibleOutcomes;
     }
     
@@ -66,12 +64,6 @@ public class ActivityType {
     }
     public void setName(String name) {
         this.name = name;
-    }
-    public String getIcon() {
-        return icon;
-    }
-    public void setIcon(String icon) {
-        this.icon = icon;
     }
     public ActivityTypeCreator getActivityTypeCreator() {
         return activityTypeCreator;
