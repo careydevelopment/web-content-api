@@ -16,7 +16,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
  * 
  * Example types include appointment, meeting, chat, email, or taking out the garbage.
  */
-public abstract class BaseActivityType {
+public abstract class BaseActivityType<T extends BaseActivityOutcome> {
 
     @NotBlank(message = "Please provide a name for this activity type")
     @Size(max = 20, message = "Activity type name must be between 1 and 20 characters")
@@ -29,7 +29,7 @@ public abstract class BaseActivityType {
     protected Boolean usesLocation = false;
     protected Boolean usesEndDate = false;
     
-    protected List<BaseActivityOutcome> possibleOutcomes = new ArrayList<>();
+    protected List<T> possibleOutcomes = new ArrayList<>();
         
     public Boolean getRequiresOutcome() {
         return requiresOutcome;
@@ -38,12 +38,9 @@ public abstract class BaseActivityType {
         this.requiresOutcome = requiresOutcome;
     }
     
-    public List<BaseActivityOutcome> getPossibleOutcomes() {
-        return possibleOutcomes;
-    }
-    public void setPossibleOutcomes(List<BaseActivityOutcome> possibleOutcomes) {
-        this.possibleOutcomes = possibleOutcomes;
-    }
+    public abstract List<T> getPossibleOutcomes();
+    
+    public abstract void setPossibleOutcomes(List<T> possibleOutcomes);
     
     public Boolean getUsesEndDate() {
         return usesEndDate;
