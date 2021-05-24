@@ -70,7 +70,9 @@ public abstract class BaseActivity<T extends BaseActivityOutcome, U extends Base
     
     protected List<Reminder> reminders;
     
-    public abstract V getOwner();
+    protected ActivityStatus status;
+    
+    public abstract V getOwner();       
     
     public abstract void setOwner(V owner);
     
@@ -128,6 +130,14 @@ public abstract class BaseActivity<T extends BaseActivityOutcome, U extends Base
 
     public void setReminders(List<Reminder> reminders) {
         this.reminders = reminders;
+    }
+    
+    public ActivityStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ActivityStatus status) {
+        this.status = status;
     }
 
     public String toString() {

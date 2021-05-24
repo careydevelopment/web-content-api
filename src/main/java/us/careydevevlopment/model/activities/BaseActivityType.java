@@ -24,9 +24,30 @@ public abstract class BaseActivityType<T extends BaseActivityOutcome> {
     @NotNull(message = "Please include an activity type creator")
     protected ActivityTypeCreator activityTypeCreator;
     
+    /**
+     * Some activities don't require outcomes.
+     * For example, when a contact completes a webform or visits a web page
+     */
     protected Boolean requiresOutcome;
+    
+    /**
+     * Some activities don't require a location.
+     * For example, calling someone on the phone.
+     */
     protected Boolean usesLocation;
+    
+    /**
+     * Some activities don't require an end date and time.
+     * For example, a reminder to call a person.
+     * However, a metting usually has an end date and time.
+     */
     protected Boolean usesEndDate;
+    
+    /**
+     * Some activities don't require a status.
+     * For example, a contact visiting a web page.
+     */
+    protected Boolean usesStatus;
     
     protected List<T> possibleOutcomes;
         
@@ -66,6 +87,14 @@ public abstract class BaseActivityType<T extends BaseActivityOutcome> {
     }
     public void setActivityTypeCreator(ActivityTypeCreator activityTypeCreator) {
         this.activityTypeCreator = activityTypeCreator;
+    }
+    
+    
+    public Boolean getUsesStatus() {
+        return usesStatus;
+    }
+    public void setUsesStatus(Boolean usesStatus) {
+        this.usesStatus = usesStatus;
     }
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
