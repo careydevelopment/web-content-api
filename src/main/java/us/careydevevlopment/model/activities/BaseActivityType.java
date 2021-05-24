@@ -1,6 +1,5 @@
  package us.careydevevlopment.model.activities;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
@@ -25,11 +24,11 @@ public abstract class BaseActivityType<T extends BaseActivityOutcome> {
     @NotNull(message = "Please include an activity type creator")
     protected ActivityTypeCreator activityTypeCreator;
     
-    protected Boolean requiresOutcome = true;
-    protected Boolean usesLocation = false;
-    protected Boolean usesEndDate = false;
+    protected Boolean requiresOutcome;
+    protected Boolean usesLocation;
+    protected Boolean usesEndDate;
     
-    protected List<T> possibleOutcomes = new ArrayList<>();
+    protected List<T> possibleOutcomes;
         
     public Boolean getRequiresOutcome() {
         return requiresOutcome;
