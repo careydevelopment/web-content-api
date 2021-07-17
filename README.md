@@ -1,2 +1,2 @@
-# activities
-Models that support tasks, to-dos, appointments, and other activities. 
+# analytics
+Handles persisting web-specific data for Spring Boot websites using MongoDB. 
