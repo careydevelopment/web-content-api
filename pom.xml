@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>us.careydevelopment.model</groupId>
-    <artifactId>activities</artifactId>
-    <name>Activities Models</name>
-    <description>Classes to handle activities, to-dos, tasks, appointments, etc.</description>
-    <url>https://github.com/careydevelopment/activities</url>
+    <groupId>us.careydevelopment.util</groupId>
+    <artifactId>analytics</artifactId>
+    <name>Analytics</name>
+    <description>Hanldes persistence of web traffic data for Spring Boot web applications</description>
+    <url>https://github.com/careydevelopment/analytics</url>
     
-    <version>1.3.0-RELEASE</version>
+    <version>1.1.0-RELEASE</version>
     
     <dependencies>
 		<dependency>
@@ -19,6 +19,11 @@
 		    <artifactId>commons-lang3</artifactId>
 		    <version>3.12.0</version>
 		</dependency>     
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-mongodb</artifactId>
+		    <version>3.2.3</version>
+		</dependency>   
     </dependencies>
     
     <properties>
@@ -34,7 +39,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
                 <version>1.6.7</version>
@@ -88,15 +93,15 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-        </plugins>
+            </plugin> -->
+        </plugins> 
         <finalName>${project.artifactId}</finalName>
     </build>
     
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>https://github.com/careydevelopment/activities/blob/main/LICENSE</url>
+            <url>https://github.com/careydevelopment/analytics/blob/main/LICENSE</url>
         </license>
     </licenses>
     
@@ -108,9 +113,9 @@
     </developers>
     
     <scm>
-        <connection>scm:git:git@github.com:careydevelopment/activities.git</connection>
-        <developerConnection>scm:git:ssh://github.com:careydevelopment/activities.git</developerConnection>
-        <url>https://github.com/careydevelopment/activities</url>
+        <connection>scm:git:git@github.com:careydevelopment/analytics.git</connection>
+        <developerConnection>scm:git:ssh://github.com:careydevelopment/analytics.git</developerConnection>
+        <url>https://github.com/careydevelopment/analytics</url>
     </scm>
     
     <distributionManagement>
