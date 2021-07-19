@@ -147,10 +147,12 @@ public abstract class BaseWebPageVisitService<T extends BaseWebPageVisit, ID ext
                                         .count()
                                         .as("count")
                                         .addToSet("urlSlug")
-                                        .as("urlSlug");
+                                        .as("urlSlug")
+                                        .addToSet("time")
+                                        .as("time");
 
         AggregationOperation project = Aggregation
-                                        .project("count", "urlSlug")
+                                        .project("count", "urlSlug", "time")
                                         .and("title")
                                         .previousOperation();
 

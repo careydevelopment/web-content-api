@@ -11,6 +11,7 @@ public abstract class BaseWebPageVisit {
     private String title;
     private List<String> tags;
     private String category;
+    private String referer;
     
     public Long getTime() {
         return time;
@@ -42,6 +43,13 @@ public abstract class BaseWebPageVisit {
     }
     public void setCategory(String category) {
         this.category = category;
+    }
+    
+    public String getReferer() {
+        return referer;
+    }
+    public void setReferer(String referer) {
+        this.referer = referer;
     }
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
