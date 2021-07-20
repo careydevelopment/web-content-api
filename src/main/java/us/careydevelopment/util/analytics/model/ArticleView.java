@@ -2,8 +2,6 @@ package us.careydevelopment.util.analytics.model;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-import us.careydevelopment.util.date.DateFormatUtil;
-
 public class ArticleView {
     
     private Long count;
@@ -35,26 +33,6 @@ public class ArticleView {
     }
     public void setTime(Long time) {
         this.time = time;
-    }
-
-    public String getHourOfView() {
-        String hour = "";
-        
-        if (time != null) {
-            hour = DateFormatUtil.getHourOfDay(time);
-        }
-        
-        return hour;
-    }
-    
-    public String getDateOfView() {
-        String date = "";
-        
-        if (time != null) {
-            date = DateFormatUtil.getDate(time);
-        }
-        
-        return date;
     }
     
     public String toString() {

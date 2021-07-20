@@ -51,7 +51,8 @@ public abstract class BaseWebPageVisitService<T extends BaseWebPageVisit, ID ext
         List<AggregationOperation> ops = new ArrayList<>();
         
         AggregationOperation minTime = Aggregation
-                                        .match(Criteria.where("time").gte(dateThreshold));
+                                        .match(Criteria.where("time")
+                                        .gte(dateThreshold));
         
         AggregationOperation unwind = Aggregation.unwind("tags");
         
@@ -98,7 +99,8 @@ public abstract class BaseWebPageVisitService<T extends BaseWebPageVisit, ID ext
         List<AggregationOperation> ops = new ArrayList<>();
         
         AggregationOperation minTime = Aggregation
-                                        .match(Criteria.where("time").gte(dateThreshold));
+                                        .match(Criteria.where("time")
+                                        .gte(dateThreshold));
         
         AggregationOperation group = Aggregation
                                         .group("category")
@@ -168,6 +170,57 @@ public abstract class BaseWebPageVisitService<T extends BaseWebPageVisit, ID ext
 
         List<ArticleView> views = getMongoTemplate()
                                     .aggregate(aggregation, getMongoTemplate().getCollectionName(getKlazz()), ArticleView.class)
+                                    .getMappedResults();
+
+        return views;
+    }
+    
+    
+    public List<T> getWebPageVisits() {
+        Long currentTime = System.currentTimeMillis();
+        Long dateThreshold = currentTime - DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_FOUR_WEEKS;
+        
+        return getWebPageVisits(dateThreshold, null, null);
+    }
+    
+    
+    /**
+     * Gets web page visits without grouping.
+     * 
+     * Useful for overall counts rather than by-category counts.
+     * 
+     * @param dateThreshold
+     * @param category
+     * @param tag
+     * @return list of WebPageVisit objects
+     */
+    public List<T> getWebPageVisits(Long dateThreshold, String category, String tag) {
+        List<AggregationOperation> ops = new ArrayList<>();
+        
+        AggregationOperation minTime = Aggregation
+                                        .match(Criteria.where("time")
+                                        .gte(dateThreshold));
+
+        ops.add(minTime);
+
+        if (category != null) {
+            AggregationOperation catMatch = Aggregation
+                    .match(Criteria.where("category").is(category));
+            
+            ops.add(catMatch);
+        }
+        
+        if (tag != null) {
+            AggregationOperation tagMatch = Aggregation
+                    .match(Criteria.where("tags").is(tag));
+            
+            ops.add(tagMatch);
+        }
+        
+        Aggregation aggregation = Aggregation.newAggregation(ops);
+
+        List<T> views = getMongoTemplate()
+                                    .aggregate(aggregation, getMongoTemplate().getCollectionName(getKlazz()), getKlazz())
                                     .getMappedResults();
 
         return views;

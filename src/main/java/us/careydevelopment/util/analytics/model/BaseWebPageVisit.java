@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+import us.careydevelopment.util.date.DateFormatUtil;
+
 public abstract class BaseWebPageVisit {
 
     private Long time;
@@ -51,6 +53,27 @@ public abstract class BaseWebPageVisit {
     public void setReferer(String referer) {
         this.referer = referer;
     }
+    
+    public String getHourOfVisit() {
+        String hour = "";
+        
+        if (time != null) {
+            hour = DateFormatUtil.getHourOfDay(time);
+        }
+        
+        return hour;
+    }
+    
+    public String getDateOfVisit() {
+        String date = "";
+        
+        if (time != null) {
+            date = DateFormatUtil.getDate(time);
+        }
+        
+        return date;
+    }
+    
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
     }

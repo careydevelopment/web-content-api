@@ -6,7 +6,7 @@
     <description>Hanldes persistence of web traffic data for Spring Boot web applications</description>
     <url>https://github.com/careydevelopment/analytics</url>
     
-    <version>1.3.0-RELEASE</version>
+    <version>1.4.0-RELEASE</version>
     
     <dependencies>
 		<dependency>
