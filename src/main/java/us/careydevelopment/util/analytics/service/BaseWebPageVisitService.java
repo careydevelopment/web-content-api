@@ -1,9 +1,14 @@
 package us.careydevelopment.util.analytics.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +23,7 @@ import us.careydevelopment.util.analytics.model.BaseWebPageVisit;
 import us.careydevelopment.util.analytics.model.CategoryView;
 import us.careydevelopment.util.analytics.model.TagView;
 import us.careydevelopment.util.analytics.repository.BaseWebPageVisitRepository;
+import us.careydevelopment.util.analytics.util.SourceUtil;
 import us.careydevelopment.util.date.DateConversionUtil;
 
 public abstract class BaseWebPageVisitService<T extends BaseWebPageVisit, ID extends Object> {
@@ -37,7 +43,7 @@ public abstract class BaseWebPageVisitService<T extends BaseWebPageVisit, ID ext
         //persist analytics info
         executor.execute(runnable);
     }
-    
+        
     
     public List<TagView> getTagViews() {
         Long currentTime = System.currentTimeMillis();
