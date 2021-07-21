@@ -14,6 +14,7 @@ public abstract class BaseWebPageVisit {
     private List<String> tags;
     private String category;
     private String referer;
+    private String imageUrl;
     
     public Long getTime() {
         return time;
@@ -54,6 +55,12 @@ public abstract class BaseWebPageVisit {
         this.referer = referer;
     }
     
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
     public String getHourOfVisit() {
         String hour = "";
         
