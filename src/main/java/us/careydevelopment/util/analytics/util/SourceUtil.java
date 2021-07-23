@@ -2,10 +2,6 @@ package us.careydevelopment.util.analytics.util;
 
 public class SourceUtil {
 
-    public static void main(String[] args) {
-        System.err.println(getBrandNameFromUrl("http://www.careydevelopment.com.mx/blog"));
-    }
-    
     public static String getDomainNameFromUrl(String url) {
         String domainName = null;
 
