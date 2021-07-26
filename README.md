@@ -12,10 +12,13 @@ info.
 
 Each visit get persisted as a new (small) document in a collection that holds nothing but analytics info. 
 
-It's best to persist the analytics in a separate collections that's in the same database as the blog itself. However, analytics could be stored in separate 
+It's best to persist the analytics in a  collection that's in the same database as the blog itself. However, analytics could be stored in separate 
 databases as well.
 
 ## Retrieving Analytics
 This library also handles retrieval of analytics info for display in admin consoles. 
 
 It's up the application that uses this dependency to implement a solution for displaying the data. 
+
+## Service Layer
+Almost all the fun stuff happens in [BaseWebPageVisitService](https://github.com/careydevelopment/analytics/blob/main/src/main/java/us/careydevelopment/util/analytics/service/BaseWebPageVisitService.java). So that's where you should turn your attention if you're interested in using this library.
