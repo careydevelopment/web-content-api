@@ -2,7 +2,7 @@
 
 # Analytics Library
 ![](https://img.shields.io/badge/jdk-11-blue.svg) ![license](https://img.shields.io/badge/license-MIT-blue.svg) 
-![](https://img.shields.io/badge/maven-3.6.3-blue.svg) ![version](https://img.shields.io/badge/version-1.7.0-blue.svg)
+![](https://img.shields.io/badge/maven-3.6.3-blue.svg)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/us.careydevelopment.util/analytics/badge.svg)](https://search.maven.org/artifact/us.careydevelopment.util/analytics/1.7.0-RELEASE/jar)
 
 
