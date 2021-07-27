@@ -22,3 +22,17 @@ It's up the application that uses this dependency to implement a solution for di
 
 ## Service Layer
 Almost all the fun stuff happens in [BaseWebPageVisitService](https://github.com/careydevelopment/analytics/blob/main/src/main/java/us/careydevelopment/util/analytics/service/BaseWebPageVisitService.java). So that's where you should turn your attention if you're interested in using this library.
+
+## Latest Release
+You can pull it from the central Maven repositories:
+
+```xml
+ <dependency>
+    <groupId>us.careydevelopment.util</groupId>
+    <artifactId>analytics</artifactId>
+    <version>1.7.0-RELEASE</version>
+ </dependency>
+```
+
+## License
+This code is under the [MIT License](https://github.com/careydevelopment/analytics/blob/main/LICENSE).
