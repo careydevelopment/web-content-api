@@ -1,5 +1,11 @@
 package us.careydevelopment.util.ip.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -32,21 +38,16 @@ public class IpService {
     
     public static void main(String[] args) {
         IpService s = IpService.getIpService();
-        s.persist();
+        
+        
+        //s.persist();
     }
     
-    public void persist() {
-        CityBlocksIpv4 c = new CityBlocksIpv4();
-        c.setIpAddress("1.1.1.1");
-        
-//        this.repo.save(c);
-//        
-//        this.repo.findAll().forEach(ip -> {
-//            System.err.println(ip);
-//        });;
-        
-//        this.repo.deleteAll();
+    
+    public void persist(CityBlocksIpv4 ip) {        
+        repo.save(ip);
     }
+    
     
     public static IpService getIpService() {
         if (IP_SERVICE == null) {

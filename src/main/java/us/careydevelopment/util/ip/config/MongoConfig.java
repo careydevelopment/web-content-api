@@ -23,10 +23,10 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(MongoConfig.class);
     
     @Value("${mongo.db}")
-    private String mongoConnection;// = "mongodb://admin:ur5opttz9@40.121.23.23:39199/ipDB";
+    private String mongoConnection;
 
     @Value("${mongo.db.name}")
-    private String mongoDatabaseName;// = "ipDB";
+    private String mongoDatabaseName;
     
     @Override
     protected String getDatabaseName() {
