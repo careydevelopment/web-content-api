@@ -7,13 +7,9 @@
     
     <logger name="org.mongodb.driver" level="info"/>
     
-    <logger name="org.springframework" level="info" additivity="true">
-        <appender-ref ref="STDOUT" />
-    </logger>
+    <logger name="org.springframework" level="info" additivity="true"/>
 
-    <logger name="org.spring" level="info" additivity="true">
-        <appender-ref ref="STDOUT" />
-    </logger>
+    <logger name="org.spring" level="info" additivity="true"/>
     
     <root level="DEBUG"> 
         <appender-ref ref="STDOUT" />
