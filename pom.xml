@@ -1,19 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>us.careydevelopment.util</groupId>
-    <artifactId>analytics</artifactId>
-    <name>Analytics</name>
-    <description>Hanldes persistence of web traffic data for Spring Boot web applications</description>
+    <artifactId>ip</artifactId>
+    <name>IP API</name>
+    <description>Handles retrieval of geo info based on IP address</description>
     <url>https://github.com/careydevelopment/analytics</url>
     
-    <version>1.7.0-RELEASE</version>
+    <version>1.0.0-SNAPSHOT</version>
     
     <dependencies>
-		<dependency>
-		    <groupId>javax.validation</groupId>
-		    <artifactId>validation-api</artifactId>
-		    <version>2.0.1.Final</version>
-		</dependency>
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-lang3</artifactId>
@@ -25,9 +20,14 @@
 		    <version>3.2.3</version>
 		</dependency>
 		<dependency>
-            <groupId>us.careydevelopment.util</groupId>
-            <artifactId>date-util</artifactId>
-            <version>1.4.0-RELEASE</version>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-core</artifactId>
+            <version>4.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>4.2.3</version>
         </dependency>
 		<dependency>
 		    <groupId>org.junit.jupiter</groupId>
@@ -45,6 +45,21 @@
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.12.4</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-api</artifactId>
+		    <version>1.7.32</version>
+		</dependency>
+		<dependency>
+		    <groupId>ch.qos.logback</groupId>
+		    <artifactId>logback-classic</artifactId>
+		    <version>1.2.5</version>
+		</dependency>
+		<dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.5</version>
+        </dependency>
     </dependencies>
     
     <properties>
@@ -60,7 +75,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
             </plugin>
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
                 <version>1.6.7</version>
@@ -114,8 +129,8 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-        </plugins> 
+            </plugin>-->
+        </plugins>  
         <finalName>${project.artifactId}</finalName>
     </build>
     
