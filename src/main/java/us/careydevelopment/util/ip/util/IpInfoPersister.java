@@ -67,8 +67,8 @@ public class IpInfoPersister {
         
         try (Stream<String> stream = Files.lines(path)) {
             stream
-                .skip(1000001)
-                .limit(500000)
+                .skip(3000001)
+                //.limit(500000)
                 .parallel()
                 .map(line -> {         
                     CityBlocksIpv4 ip = getIpFromLine(line, geos);
@@ -77,13 +77,8 @@ public class IpInfoPersister {
                 }) 
                 .filter(ip -> ip.getGeoInfo() != null)
                 .forEach(ip -> {
-                    service.persist(ip);
+                    service.persistIpv4(ip);
                 });
-            
-//            ips.forEach(ip -> {
-//                System.err.println("persisting " + ip);
-//                service.persist(ip);
-//            });
         } catch (IOException e) {
             e.printStackTrace();
         }

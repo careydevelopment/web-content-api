@@ -2,6 +2,12 @@ package us.careydevelopment.util.ip.model;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+/**
+ * This model includes geo-specific info related to an IP address.
+ * 
+ * @author Brian Carey
+ *
+ */
 public class GeoInfo {
 
     private String geoNameId;

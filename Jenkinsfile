@@ -1,13 +1,13 @@
 node {
 	def app
-	def image = 'careydevelopment/analytics'
+	def image = 'careydevelopment/ip-api'
 	def branch = scm.branches[0].name.substring(2)
 	
 	try {
 		stage('Clone repository') {
 	    	git branch: branch,
 	        	credentialsId: 'GitHub Credentials',
-	        	url: 'https://github.com/careydevelopment/analytics.git'
+	        	url: 'https://github.com/careydevelopment/ip-api.git'
 	    } 
 	
 		//Doing manual builds for now as this requires access to PGP
