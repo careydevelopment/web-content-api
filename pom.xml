@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>us.careydevelopment.util</groupId>
-    <artifactId>ip</artifactId>
+    <artifactId>ip-api</artifactId>
     <name>IP API</name>
     <description>Handles retrieval of geo info based on IP address</description>
     <url>https://github.com/careydevelopment/ip-api</url>
