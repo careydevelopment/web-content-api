@@ -6,7 +6,7 @@
     <description>Handles retrieval of geo info based on IP address</description>
     <url>https://github.com/careydevelopment/ip-api</url>
     
-    <version>1.0.0-RELEASE</version>
+    <version>1.1.0-RELEASE</version>
     
     <dependencies>
 		<dependency>

@@ -97,6 +97,7 @@ public class IpInfoPersister {
         String countryName = stripQuotes(parts[5]);
         String cityName = stripQuotes(parts[10]);
         String timeZone = parts[12];
+        String state = stripQuotes(parts[7]);
         
         String isInEuInd = parts[13];
         boolean isInEu = "1".equals(isInEuInd); 
@@ -110,6 +111,7 @@ public class IpInfoPersister {
         geo.setIsInEuropeanUnion(isInEu);
         geo.setLocaleCode(localeCode);
         geo.setTimeZone(timeZone);
+        geo.setState(state);
         
         return geo;
     }

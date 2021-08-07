@@ -1,5 +1,6 @@
 package us.careydevelopment.util.ip.model;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
@@ -19,6 +20,7 @@ public class GeoInfo {
     private String cityName;
     private String timeZone;
     private Boolean isInEuropeanUnion;
+    private String state;
     
     
     public String getGeoNameId() {
@@ -75,6 +77,16 @@ public class GeoInfo {
     public void setIsInEuropeanUnion(Boolean isInEuropeanUnion) {
         this.isInEuropeanUnion = isInEuropeanUnion;
     }
+    
+    public String getState() {
+        if (!StringUtils.isEmpty(state)) return state;
+        else return "N/A";
+    }
+    
+    public void setState(String state) {
+        this.state = state;
+    }
+    
     
     @Override
     public int hashCode() {
