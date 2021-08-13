@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>us.careydevelopment.util</groupId>
-    <artifactId>ip-api</artifactId>
-    <name>IP API</name>
-    <description>Handles retrieval of geo info based on IP address</description>
-    <url>https://github.com/careydevelopment/ip-api</url>
+    <artifactId>web-content-api</artifactId>
+    <name>Web Content API</name>
+    <description>Handles CRUD activities for web content.</description>
+    <url>https://github.com/careydevelopment/web-content-api</url>
     
-    <version>1.1.0-RELEASE</version>
+    <version>1.0.0-RELEASE</version>
     
     <dependencies>
-		<dependency>
+        <dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-lang3</artifactId>
 		    <version>3.12.0</version>
