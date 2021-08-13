@@ -137,7 +137,7 @@
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>https://github.com/careydevelopment/ip-api/blob/main/LICENSE</url>
+            <url>https://github.com/careydevelopment/wev-content-api/blob/main/LICENSE</url>
         </license>
     </licenses>
     
@@ -149,9 +149,9 @@
     </developers>
     
     <scm>
-        <connection>scm:git:git@github.com:careydevelopment/ip-api.git</connection>
-        <developerConnection>scm:git:ssh://github.com:careydevelopment/ip-api.git</developerConnection>
-        <url>https://github.com/careydevelopment/ip-api</url>
+        <connection>scm:git:git@github.com:careydevelopment/web-content-api.git</connection>
+        <developerConnection>scm:git:ssh://github.com:careydevelopment/web-content-api.git</developerConnection>
+        <url>https://github.com/careydevelopment/web-content-api</url>
     </scm>
     
     <distributionManagement>

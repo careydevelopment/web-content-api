@@ -1,4 +1,4 @@
-package us.careydevelopment.util.ip.config;
+package us.careydevelopment.util.webcontent.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +23,8 @@ import com.mongodb.client.MongoClients;
  *
  */
 @Configuration
-@ComponentScan("us.careydevelopment.util.ip")
-@EnableMongoRepositories(basePackages= {"us.careydevelopment.util.ip.repository"})
+@ComponentScan("us.careydevelopment.util.webcontent")
+@EnableMongoRepositories(basePackages= {"us.careydevelopment.util.webcontent.repository"})
 public class MongoConfig extends AbstractMongoClientConfiguration {
 
     private static final Logger LOG = LoggerFactory.getLogger(MongoConfig.class);
@@ -50,6 +50,6 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     
     public @Bean MongoTemplate mongoTemplate() {
-        return new MongoTemplate(mongoClient(), "ipDB");
+        return new MongoTemplate(mongoClient(), mongoDatabaseName);
     }
 }

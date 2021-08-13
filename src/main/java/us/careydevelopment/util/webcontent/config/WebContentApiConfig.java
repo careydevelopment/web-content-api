@@ -1,4 +1,4 @@
-package us.careydevelopment.util.ip.config;
+package us.careydevelopment.util.webcontent.config;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -20,15 +20,15 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  */
 @PropertySource("classpath:application.properties")
 @Configuration
-@ComponentScan("us.careydevelopment.util.ip")
-public class IpApiConfig {
+@ComponentScan("us.careydevelopment.util.webcontent")
+public class WebContentApiConfig {
 
     /**
      * Static method available if, for whatever reason, some developer wants to use this package
      * independent of the service.
      */
     public static void init() {
-        ApplicationContext context = new AnnotationConfigApplicationContext(IpApiConfig.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(WebContentApiConfig.class);
     }
     
     
