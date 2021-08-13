@@ -3,7 +3,7 @@
 # IP API
 ![](https://img.shields.io/badge/jdk-11-blue.svg) ![license](https://img.shields.io/badge/license-MIT-blue.svg) 
 ![](https://img.shields.io/badge/maven-3.6.3-blue.svg)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/us.careydevelopment.util/ip-api/badge.svg)](https://search.maven.org/artifact/us.careydevelopment.util/ip-api/1.0.0-RELEASE/jar)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/us.careydevelopment.util/web-content-api/badge.svg)](https://search.maven.org/artifact/us.careydevelopment.util/web-content-api/1.0.0-RELEASE/jar)
 
 
 

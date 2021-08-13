@@ -13,7 +13,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  * 
  * Remember: this class needs to be loaded via AnnotationConfigApplicationContext.
  * 
- * You can see an example of that in the {@link us.careydevelopment.util.ip.service.IpService IpService class}.
+ * You can see an example of that in the {@link us.careydevelopment.util.webcontent.service.WebContentService WebContentService class}.
  * 
  * @author Brian Carey
  *

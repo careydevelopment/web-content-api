@@ -7,11 +7,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 
+import us.careydevelopment.model.api.reddit.RedditLink;
 import us.careydevelopment.util.webcontent.config.WebContentApiConfig;
+import us.careydevelopment.util.webcontent.model.Article;
 import us.careydevelopment.util.webcontent.model.RedditVideo;
 import us.careydevelopment.util.webcontent.model.YouTubeVideo;
+import us.careydevelopment.util.webcontent.repository.ArticleRepository;
 import us.careydevelopment.util.webcontent.repository.RedditVideoRepository;
 import us.careydevelopment.util.webcontent.repository.YouTubeVideoRepository;
+import us.careydevelopment.util.webcontent.util.ArticleUtil;
 
 
 /**
@@ -39,6 +43,9 @@ public class WebContentService {
         
     @Autowired
     private RedditVideoRepository redditVideoRepository;
+   
+    @Autowired
+    private ArticleRepository articleRepository;
     
     
     /**
@@ -97,6 +104,25 @@ public class WebContentService {
             LOG.debug("Persisting " + permalink + ": " + video.getTitle());
             video.setPersistTime(System.currentTimeMillis());
             redditVideoRepository.save(video);            
+        }
+    }
+    
+    
+    /**
+     * Saves a RedditLink object as an article.
+     * 
+     * @param redditLink
+     */
+    public void persistRedditLink(RedditLink link) { 
+        String url = link.getUrl();
+        Article foundArticle = articleRepository.findByUrl(url);
+        
+        if (foundArticle != null) {
+            LOG.debug("Found article " + url + ", not persisitng");
+        } else {
+            LOG.debug("Persisting " + url + ": " + link.getTitle());
+            Article article = ArticleUtil.convertRedditLinkToArticle(link);
+            articleRepository.save(article);            
         }
     }
 }
