@@ -1,10 +1,17 @@
 package us.careydevelopment.util.webcontent.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 
 import us.careydevelopment.util.webcontent.config.WebContentApiConfig;
+import us.careydevelopment.util.webcontent.model.RedditVideo;
+import us.careydevelopment.util.webcontent.model.YouTubeVideo;
+import us.careydevelopment.util.webcontent.repository.RedditVideoRepository;
+import us.careydevelopment.util.webcontent.repository.YouTubeVideoRepository;
 
 
 /**
@@ -22,11 +29,17 @@ import us.careydevelopment.util.webcontent.config.WebContentApiConfig;
 @Service
 public class WebContentService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(WebContentService.class);
+
+    
     private static WebContentService WEB_CONTENT_SERVICE;
     
-    //@Autowired
-    //private CityBlocksIpv4Repository ipv4Repo;
+    @Autowired
+    private YouTubeVideoRepository youTubeVideoRepository;
         
+    @Autowired
+    private RedditVideoRepository redditVideoRepository;
+    
     
     /**
      * This singleton will "Springify" this entire package if it 
@@ -40,7 +53,7 @@ public class WebContentService {
      * 
      * @return WebContentService singleton
      */
-    public static WebContentService getIpService() {
+    public static WebContentService getWebContentService() {
         if (WEB_CONTENT_SERVICE == null) {
             ApplicationContext context = new AnnotationConfigApplicationContext(WebContentApiConfig.class);
             WEB_CONTENT_SERVICE = context.getBean(WebContentService.class);
@@ -51,59 +64,39 @@ public class WebContentService {
     
     
     /**
-     * Saves an IPv4 IP address object.
+     * Saves a YouTubeVideo object.
      * 
-     * @param ip
+     * @param youTubeVideo
      */
-//    public void persistIpv4(CityBlocksIpv4 ip) {        
-//        ipv4Repo.save(ip);
-//    }
+    public void persistYouTubeVideo(YouTubeVideo video) { 
+        String videoId = video.getVideoId();
+        YouTubeVideo foundVideo = youTubeVideoRepository.findByVideoId(videoId);
+        
+        if (foundVideo != null) {
+            LOG.debug("Found video " + videoId + ", not persisting");
+        } else {
+            LOG.debug("Persisting " + videoId + ": " + video.getTitle());
+            video.setPersistTime(System.currentTimeMillis());
+            youTubeVideoRepository.save(video);        
+        }
+    }
     
     
     /**
-     * Searches for a match based on IP address
+     * Saves a RedditVideo object.
      * 
-     * Will perform a Class C search if no matches on full IP address.
-     * 
-     * @param ipAddress - full IP address
-     * @return - list of matching GeoInfo objects
+     * @param redditVideo
      */
-//    public List<CityBlocksIpv4> findByIpAddress(String ipAddress) { 
-//        List<CityBlocksIpv4> list = new ArrayList<>();
-//        
-//        if (ipAddress != null) {
-//            list = ipv4Repo.findByIpAddress(ipAddress);
-//            
-//            if (list == null || list.size() == 0) {
-//                return findByClassC(ipAddress);
-//            }   
-//        }
-//        
-//        return list;
-//    }
-    
-    
-    /**
-     * Accepts a full IP address and searches for matches based on the first three numbers.
-     * 
-     * It's a search by Class C network, where everything before the last period is part of the same
-     * network.
-     * 
-     * @param ipAddress - full IP address
-     * @return - list of matching GeoInfo objects
-     */
-//    public List<CityBlocksIpv4> findByClassC(String ipAddress) {
-//        List<CityBlocksIpv4> list = new ArrayList<>();
-//        
-//        if (ipAddress != null) {
-//            int lastPeriod = ipAddress.lastIndexOf(".");
-//            
-//            if (lastPeriod > -1) {
-//                String firstThreeNumbers = ipAddress.substring(0, lastPeriod);
-//                list = ipv4Repo.findByClassC(firstThreeNumbers);
-//            }
-//        }
-//        
-//        return list;
-//    }
+    public void persistRedditVideo(RedditVideo video) { 
+        String permalink = video.getPermalink();
+        RedditVideo foundVideo = redditVideoRepository.findByPermalink(permalink);
+        
+        if (foundVideo != null) {
+            LOG.debug("Found video " + permalink + ", not persisitng");
+        } else {
+            LOG.debug("Persisting " + permalink + ": " + video.getTitle());
+            video.setPersistTime(System.currentTimeMillis());
+            redditVideoRepository.save(video);            
+        }
+    }
 }
