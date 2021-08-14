@@ -6,13 +6,18 @@
     <description>Handles CRUD activities for web content.</description>
     <url>https://github.com/careydevelopment/web-content-api</url>
     
-    <version>1.0.0-RELEASE</version>
+    <version>1.1.0-RELEASE</version>
     
     <dependencies>
         <dependency>
+            <groupId>us.careydevelopment.util</groupId>
+            <artifactId>date-util</artifactId>
+            <version>1.4.0-RELEASE</version>
+        </dependency> 
+        <dependency>
             <groupId>us.careydevelopment.model.api</groupId>
             <artifactId>api-flyweights</artifactId>
-            <version>1.2.0-RELEASE</version>
+            <version>1.2.5-RELEASE</version>
         </dependency>  
         <dependency>
             <groupId>org.apache.commons</groupId>

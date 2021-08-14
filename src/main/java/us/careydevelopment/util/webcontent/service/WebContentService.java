@@ -1,16 +1,26 @@
 package us.careydevelopment.util.webcontent.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import us.careydevelopment.model.api.reddit.RedditLink;
+import us.careydevelopment.util.date.DateConversionUtil;
 import us.careydevelopment.util.webcontent.config.WebContentApiConfig;
 import us.careydevelopment.util.webcontent.model.Article;
 import us.careydevelopment.util.webcontent.model.RedditVideo;
+import us.careydevelopment.util.webcontent.model.WebContent;
 import us.careydevelopment.util.webcontent.model.YouTubeVideo;
 import us.careydevelopment.util.webcontent.repository.ArticleRepository;
 import us.careydevelopment.util.webcontent.repository.RedditVideoRepository;
@@ -35,6 +45,15 @@ public class WebContentService {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebContentService.class);
 
+    private static final Long MAX_TIME_FOR_ARTICLES = DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_DAY;
+    private static final Long MAX_ARTICLES = 50l;
+    
+    private static final Long MAX_TIME_FOR_YOUTUBE = DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_DAY;
+    private static final Long MAX_YOUTUBE_VIDEOS = 6l;
+    
+    private static final Long MAX_TIME_FOR_REDDIT_VIDEOS = DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_DAY;
+    private static final Long MAX_REDDIT_VIDEOS = 6l;
+    
     
     private static WebContentService WEB_CONTENT_SERVICE;
     
@@ -47,6 +66,9 @@ public class WebContentService {
     @Autowired
     private ArticleRepository articleRepository;
     
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
     
     /**
      * This singleton will "Springify" this entire package if it 
@@ -124,5 +146,94 @@ public class WebContentService {
             Article article = ArticleUtil.convertRedditLinkToArticle(link);
             articleRepository.save(article);            
         }
+    }
+    
+    
+    public List<WebContent> fetchTrendingContent() {
+        List<Article> articles = fetchTrendingArticles();
+        List<YouTubeVideo> youtubeVideos = fetchTrendingYouTubeVideos();
+        List<RedditVideo> redditVideos = fetchTrendingRedditVideos();
+        
+        List<WebContent> webContent = new ArrayList<WebContent>();
+        webContent.addAll(articles);
+        webContent.addAll(youtubeVideos);
+        webContent.addAll(redditVideos);
+        
+        return webContent;
+    }
+    
+    
+    public List<RedditVideo> fetchTrendingRedditVideos() {
+        List<AggregationOperation> ops = new ArrayList<>();
+
+        Long minDate = System.currentTimeMillis() - MAX_TIME_FOR_REDDIT_VIDEOS;
+        
+        AggregationOperation dateThreshold = Aggregation.match(Criteria.where("created").gte(minDate));
+        ops.add(dateThreshold);
+        
+        AggregationOperation sort = Aggregation.sort(Direction.DESC, "score");
+        ops.add(sort);
+        
+        AggregationOperation limit = Aggregation.limit(MAX_REDDIT_VIDEOS);
+        ops.add(limit);
+         
+        Aggregation aggregation = Aggregation.newAggregation(ops);
+        
+        List<RedditVideo> videos = mongoTemplate.aggregate(aggregation, mongoTemplate.getCollectionName(RedditVideo.class), RedditVideo.class).getMappedResults();
+//        videos.forEach(video -> {
+//            System.err.println( video.getCreated() + " " + video.getScore() + " " + video.getTitle());
+//        });
+        
+        return videos;
+    }
+    
+    
+    public List<YouTubeVideo> fetchTrendingYouTubeVideos() {
+        List<AggregationOperation> ops = new ArrayList<>();
+
+        Long minDate = System.currentTimeMillis() - MAX_TIME_FOR_YOUTUBE;
+        
+        AggregationOperation dateThreshold = Aggregation.match(Criteria.where("publishedAt").gte(minDate));
+        ops.add(dateThreshold);
+        
+        AggregationOperation sort = Aggregation.sort(Direction.DESC, "viewCount");
+        ops.add(sort);
+        
+        AggregationOperation limit = Aggregation.limit(MAX_YOUTUBE_VIDEOS);
+        ops.add(limit);
+         
+        Aggregation aggregation = Aggregation.newAggregation(ops);
+        
+        List<YouTubeVideo> videos = mongoTemplate.aggregate(aggregation, mongoTemplate.getCollectionName(YouTubeVideo.class), YouTubeVideo.class).getMappedResults();
+//        videos.forEach(video -> {
+//            System.err.println( video.getPublishedAt() + " " + video.getViewCount() + " " + video.getTitle());
+//        });
+        
+        return videos;
+    }
+    
+    
+    public List<Article> fetchTrendingArticles() {
+        List<AggregationOperation> ops = new ArrayList<>();
+
+        Long minDate = System.currentTimeMillis() - MAX_TIME_FOR_ARTICLES;
+        
+        AggregationOperation dateThreshold = Aggregation.match(Criteria.where("publishTime").gte(minDate));
+        ops.add(dateThreshold);
+        
+        AggregationOperation sort = Aggregation.sort(Direction.DESC, "score");
+        ops.add(sort);
+        
+        AggregationOperation limit = Aggregation.limit(MAX_ARTICLES);
+        ops.add(limit);
+         
+        Aggregation aggregation = Aggregation.newAggregation(ops);
+        
+        List<Article> articles = mongoTemplate.aggregate(aggregation, mongoTemplate.getCollectionName(Article.class), Article.class).getMappedResults();
+//        articles.forEach(article -> {
+//            System.err.println( article.getPublishTime() + " " + article.getScore() + " " + article.getTitle());
+//        });
+        
+        return articles;
     }
 }

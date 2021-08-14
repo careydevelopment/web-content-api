@@ -5,9 +5,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import us.careydevelopment.model.api.youtube.Video;
+import us.careydevelopment.util.webcontent.constants.ContentType;
 
 @Document(collection = "#{@environment.getProperty('mongo.youtube.collection')}")
-public class YouTubeVideo extends Video {
+public class YouTubeVideo extends Video implements WebContent {
 
     @Id
     private String id;
@@ -62,5 +63,25 @@ public class YouTubeVideo extends Video {
                 return false;
             
         return true;
+    }
+
+    @Override
+    public Long getPublishTime() {
+        return this.getPublishedAt();
+    }
+
+    @Override
+    public String getUrl() {
+        return null;
+    }
+
+    @Override
+    public String getThumbnail() {
+        return this.getThumbnailUrl();
+    }
+
+    @Override
+    public ContentType getType() {
+        return ContentType.YOUTUBE_VIDEO;
     }
 }

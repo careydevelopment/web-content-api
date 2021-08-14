@@ -18,7 +18,7 @@ public class ArticleUtil {
         article.setTitle(link.getTitle());
         article.setUrl(link.getUrl());
         article.setScore(link.getScore());
-        article.setPublishTime(link.getCreated() * 1000);
+        article.setPublishTime(link.getCreated());
         
         return article;
     }

@@ -5,9 +5,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import us.careydevelopment.model.api.reddit.BaseRedditVideo;
+import us.careydevelopment.util.webcontent.constants.ContentType;
 
 @Document(collection = "#{@environment.getProperty('mongo.redditVideo.collection')}")
-public class RedditVideo extends BaseRedditVideo {
+public class RedditVideo extends BaseRedditVideo implements WebContent {
 
     @Id
     private String id;
@@ -62,5 +63,25 @@ public class RedditVideo extends BaseRedditVideo {
                 return false;
             
         return true;
+    }
+
+    @Override
+    public Long getPublishTime() {
+        return this.getCreated();
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public String getUrl() {
+        return this.getPermalink();
+    }
+
+    @Override
+    public ContentType getType() {
+        return ContentType.REDDIT_VIDEO;
     }
 }

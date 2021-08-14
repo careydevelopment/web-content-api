@@ -1,12 +1,14 @@
 package us.careydevelopment.util.webcontent.model;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import us.careydevelopment.util.webcontent.constants.ContentType;
 import us.careydevelopment.util.webcontent.constants.OriginalSource;
 
 @Document(collection = "#{@environment.getProperty('mongo.article.collection')}")
-public class Article {
+public class Article implements WebContent {
 
     @Id
     private String id;
@@ -99,6 +101,11 @@ public class Article {
     public void setSiteName(String siteName) {
         this.siteName = siteName;
     }
+    
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -126,4 +133,16 @@ public class Article {
             
         return true;
     }
+    
+    
+    @Override
+    public String getDescription() {
+        return null;
+    }
+    
+    @Override
+    public ContentType getType() {
+        return ContentType.ARTICLE;
+    }
+    
 }

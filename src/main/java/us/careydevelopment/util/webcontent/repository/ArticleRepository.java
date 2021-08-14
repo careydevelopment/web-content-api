@@ -10,4 +10,5 @@ import us.careydevelopment.util.webcontent.model.Article;
 public interface ArticleRepository extends MongoRepository<Article, String> {
 
     public Article findByUrl(String url);
+    
 }
