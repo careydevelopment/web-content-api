@@ -31,6 +31,32 @@ public class YouTubeVideo extends Video implements WebContent {
     public void setPersistTime(Long persistTime) {
         this.persistTime = persistTime;
     }
+    
+
+    @Override
+    public Long getPublishTime() {
+        return this.getPublishedAt();
+    }
+
+    @Override
+    public String getUrl() {
+        return null;
+    }
+
+    @Override
+    public String getThumbnail() {
+        return this.getThumbnailUrl();
+    }
+
+    @Override
+    public ContentType getType() {
+        return ContentType.YOUTUBE_VIDEO;
+    }
+
+    @Override
+    public String getContentId() {
+        return this.getVideoId();
+    }
 
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
@@ -63,25 +89,5 @@ public class YouTubeVideo extends Video implements WebContent {
                 return false;
             
         return true;
-    }
-
-    @Override
-    public Long getPublishTime() {
-        return this.getPublishedAt();
-    }
-
-    @Override
-    public String getUrl() {
-        return null;
-    }
-
-    @Override
-    public String getThumbnail() {
-        return this.getThumbnailUrl();
-    }
-
-    @Override
-    public ContentType getType() {
-        return ContentType.YOUTUBE_VIDEO;
     }
 }
