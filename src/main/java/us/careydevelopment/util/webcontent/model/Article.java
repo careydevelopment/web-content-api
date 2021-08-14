@@ -112,6 +112,11 @@ public class Article implements WebContent {
         return ContentType.ARTICLE;
     }
     
+    @Override
+    public String getContentId() {
+        return url;
+    }
+    
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
     }

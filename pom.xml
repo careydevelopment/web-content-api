@@ -6,7 +6,7 @@
     <description>Handles CRUD activities for web content.</description>
     <url>https://github.com/careydevelopment/web-content-api</url>
     
-    <version>1.1.1-RELEASE</version>
+    <version>1.2.0-RELEASE</version>
     
     <dependencies>
         <dependency>

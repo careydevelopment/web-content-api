@@ -35,7 +35,32 @@ public class RedditVideo extends BaseRedditVideo implements WebContent {
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
     }
-        
+     
+
+    @Override
+    public Long getPublishTime() {
+        return this.getCreated();
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public String getUrl() {
+        return this.getPermalink();
+    }
+
+    @Override
+    public ContentType getType() {
+        return ContentType.REDDIT_VIDEO;
+    }
+
+    @Override
+    public String getContentId() {
+        return this.getPermalink();
+    }
         
     @Override
     public int hashCode() {
@@ -63,25 +88,5 @@ public class RedditVideo extends BaseRedditVideo implements WebContent {
                 return false;
             
         return true;
-    }
-
-    @Override
-    public Long getPublishTime() {
-        return this.getCreated();
-    }
-
-    @Override
-    public String getDescription() {
-        return null;
-    }
-
-    @Override
-    public String getUrl() {
-        return this.getPermalink();
-    }
-
-    @Override
-    public ContentType getType() {
-        return ContentType.REDDIT_VIDEO;
     }
 }
