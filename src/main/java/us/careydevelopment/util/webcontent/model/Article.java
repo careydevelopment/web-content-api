@@ -102,6 +102,16 @@ public class Article implements WebContent {
         this.siteName = siteName;
     }
     
+    @Override
+    public String getDescription() {
+        return blurb;
+    }
+    
+    @Override
+    public ContentType getType() {
+        return ContentType.ARTICLE;
+    }
+    
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
     }
@@ -132,17 +142,6 @@ public class Article implements WebContent {
                 return false;
             
         return true;
-    }
-    
-    
-    @Override
-    public String getDescription() {
-        return null;
-    }
-    
-    @Override
-    public ContentType getType() {
-        return ContentType.ARTICLE;
     }
     
 }
