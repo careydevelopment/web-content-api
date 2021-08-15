@@ -46,9 +46,9 @@ public class WebContentService {
     private static final Logger LOG = LoggerFactory.getLogger(WebContentService.class);
 
     private static final Long MAX_TIME_FOR_ARTICLES = DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_DAY;
-    private static final Long MAX_ARTICLES = 50l;
+    private static final Long MAX_ARTICLES = 100l;
     
-    private static final Long MAX_TIME_FOR_YOUTUBE = DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_DAY * 3;
+    private static final Long MAX_TIME_FOR_YOUTUBE = DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_DAY;
     private static final Long MAX_YOUTUBE_VIDEOS = 6l;
     
     private static final Long MAX_TIME_FOR_REDDIT_VIDEOS = DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_DAY;
@@ -193,7 +193,7 @@ public class WebContentService {
 
         Long minDate = System.currentTimeMillis() - MAX_TIME_FOR_YOUTUBE;
         
-        AggregationOperation dateThreshold = Aggregation.match(Criteria.where("publishedAt").gte(minDate));
+        AggregationOperation dateThreshold = Aggregation.match(Criteria.where("persistTime").gte(minDate));
         ops.add(dateThreshold);
         
         AggregationOperation sort = Aggregation.sort(Direction.DESC, "viewCount");
@@ -205,9 +205,9 @@ public class WebContentService {
         Aggregation aggregation = Aggregation.newAggregation(ops);
         
         List<YouTubeVideo> videos = mongoTemplate.aggregate(aggregation, mongoTemplate.getCollectionName(YouTubeVideo.class), YouTubeVideo.class).getMappedResults();
-        videos.forEach(video -> {
-            System.err.println( video.getPublishedAt() + " " + video.getViewCount() + " " + video.getTitle());
-        });
+//        videos.forEach(video -> {
+//            System.err.println( video.getPublishedAt() + " " + video.getViewCount() + " " + video.getTitle());
+//        });
         
         return videos;
     }
@@ -231,7 +231,7 @@ public class WebContentService {
         
         List<Article> articles = mongoTemplate.aggregate(aggregation, mongoTemplate.getCollectionName(Article.class), Article.class).getMappedResults();
 //        articles.forEach(article -> {
-//            System.err.println( article.getPublishTime() + " " + article.getScore() + " " + article.getTitle());
+//            System.err.println(article.getScore() + " " + article.getTitle() + " " + article.getUrl() + " " + article.getThumbnail());
 //        });
         
         return articles;
