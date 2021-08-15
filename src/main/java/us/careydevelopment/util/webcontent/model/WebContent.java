@@ -11,5 +11,7 @@ public interface WebContent {
     public String getThumbnail();
     public ContentType getType();
     public String getContentId();
+    public String getSource();
+    public String getSubject();
     
 }

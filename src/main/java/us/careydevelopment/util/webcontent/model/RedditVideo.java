@@ -36,6 +36,15 @@ public class RedditVideo extends BaseRedditVideo implements WebContent {
         return ReflectionToStringBuilder.toString(this);
     }
      
+    @Override
+    public String getSource() {
+        return "Reddit";
+    }
+
+    @Override
+    public String getSubject() {
+        return null;
+    }
 
     @Override
     public Long getPublishTime() {

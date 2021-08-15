@@ -117,6 +117,11 @@ public class Article implements WebContent {
         return url;
     }
     
+    @Override
+    public String getSource() {
+        return siteName;
+    }
+    
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
     }
@@ -148,5 +153,4 @@ public class Article implements WebContent {
             
         return true;
     }
-    
 }

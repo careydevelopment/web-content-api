@@ -1,6 +1,7 @@
 package us.careydevelopment.util.webcontent.util;
 
 import us.careydevelopment.model.api.reddit.RedditLink;
+import us.careydevelopment.util.analytics.util.SourceUtil;
 import us.careydevelopment.util.webcontent.constants.OriginalSource;
 import us.careydevelopment.util.webcontent.model.Article;
 
@@ -19,7 +20,20 @@ public class ArticleUtil {
         article.setUrl(link.getUrl());
         article.setScore(link.getScore());
         article.setPublishTime(link.getCreated());
+        article.setSubject(link.getSubject());
+        article.setSiteName(getDomainNameFromUrl(link.getUrl()));
         
         return article;
+    }
+    
+    
+    private static String getDomainNameFromUrl(String url) {
+        String domainName = SourceUtil.getDomainNameFromUrl(url);
+        
+        if (domainName.startsWith("www.")) {
+            domainName = domainName.substring(4);
+        }
+        
+        return domainName;
     }
 }

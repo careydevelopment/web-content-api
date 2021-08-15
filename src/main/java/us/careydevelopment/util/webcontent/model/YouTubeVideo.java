@@ -54,6 +54,16 @@ public class YouTubeVideo extends Video implements WebContent {
     }
 
     @Override
+    public String getSource() {
+        return "YouTube";
+    }
+
+    @Override
+    public String getSubject() {
+        return null;
+    }
+    
+    @Override
     public String getContentId() {
         return this.getVideoId();
     }
