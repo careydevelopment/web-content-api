@@ -19,11 +19,15 @@ import us.careydevelopment.model.api.reddit.RedditLink;
 import us.careydevelopment.util.date.DateConversionUtil;
 import us.careydevelopment.util.webcontent.config.WebContentApiConfig;
 import us.careydevelopment.util.webcontent.model.Article;
+import us.careydevelopment.util.webcontent.model.RedditImage;
 import us.careydevelopment.util.webcontent.model.RedditVideo;
+import us.careydevelopment.util.webcontent.model.Tweet;
 import us.careydevelopment.util.webcontent.model.WebContent;
 import us.careydevelopment.util.webcontent.model.YouTubeVideo;
 import us.careydevelopment.util.webcontent.repository.ArticleRepository;
+import us.careydevelopment.util.webcontent.repository.RedditImageRepository;
 import us.careydevelopment.util.webcontent.repository.RedditVideoRepository;
+import us.careydevelopment.util.webcontent.repository.TweetRepository;
 import us.careydevelopment.util.webcontent.repository.YouTubeVideoRepository;
 import us.careydevelopment.util.webcontent.util.ArticleUtil;
 
@@ -49,13 +53,20 @@ public class WebContentService {
     private static final Long MAX_ARTICLES = 100l;
     
     private static final Long MAX_TIME_FOR_YOUTUBE = DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_DAY;
-    private static final Long MAX_YOUTUBE_VIDEOS = 6l;
+    private static final Long MAX_YOUTUBE_VIDEOS = 12l;
     
-    private static final Long MAX_TIME_FOR_REDDIT_VIDEOS = DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_DAY;
-    private static final Long MAX_REDDIT_VIDEOS = 6l;
+    private static final Long MAX_TIME_FOR_REDDIT_VIDEOS = DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_DAY * 2;
+    private static final Long MAX_REDDIT_VIDEOS = 12l;
+    
+    private static final Long MAX_TIME_FOR_REDDIT_IMAGES = DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_DAY * 2;
+    private static final Long MAX_REDDIT_IMAGES = 12l;
+
+    private static final Long MAX_TIME_FOR_TWEETS = DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_DAY;
+    private static final Long MAX_TWEETS = 12l;
     
     
     private static WebContentService WEB_CONTENT_SERVICE;
+    
     
     @Autowired
     private YouTubeVideoRepository youTubeVideoRepository;
@@ -64,7 +75,13 @@ public class WebContentService {
     private RedditVideoRepository redditVideoRepository;
    
     @Autowired
+    private RedditImageRepository redditImageRepository;
+    
+    @Autowired
     private ArticleRepository articleRepository;
+    
+    @Autowired
+    private TweetRepository tweetRepository;
     
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -102,11 +119,34 @@ public class WebContentService {
         YouTubeVideo foundVideo = youTubeVideoRepository.findByVideoId(videoId);
         
         if (foundVideo != null) {
-            LOG.debug("Found video " + videoId + ", not persisting");
+            LOG.debug("Found video " + videoId + ", updating view count");
+            foundVideo.setViewCount(video.getViewCount());
+            youTubeVideoRepository.save(foundVideo);
         } else {
             LOG.debug("Persisting " + videoId + ": " + video.getTitle());
             video.setPersistTime(System.currentTimeMillis());
             youTubeVideoRepository.save(video);        
+        }
+    }
+    
+    
+    /**
+     * Saves a Tweet object.
+     * 
+     * @param tweet
+     */
+    public void persistTweet(Tweet tweet) { 
+        String tweetId = tweet.getTweetId();
+        Tweet foundTweet = tweetRepository.findByTweetId(tweetId);
+        
+        if (foundTweet != null) {
+            LOG.debug("Found tweet " + tweetId + ", updating retweets");
+            foundTweet.setScore(tweet.getScore());
+            tweetRepository.save(foundTweet);
+        } else {
+            LOG.debug("Persisting " + tweetId + ": " + tweet.getText());
+            tweet.setPersistTime(System.currentTimeMillis());
+            tweetRepository.save(tweet);        
         }
     }
     
@@ -121,11 +161,34 @@ public class WebContentService {
         RedditVideo foundVideo = redditVideoRepository.findByPermalink(permalink);
         
         if (foundVideo != null) {
-            LOG.debug("Found video " + permalink + ", not persisitng");
+            LOG.debug("Found video " + permalink + ", updating score");
+            foundVideo.setScore(video.getScore());
+            redditVideoRepository.save(foundVideo);
         } else {
             LOG.debug("Persisting " + permalink + ": " + video.getTitle());
             video.setPersistTime(System.currentTimeMillis());
             redditVideoRepository.save(video);            
+        }
+    }
+
+    
+    /**
+     * Saves a RedditImage object.
+     * 
+     * @param redditImage
+     */
+    public void persistRedditImage(RedditImage image) { 
+        String permalink = image.getPermalink();
+        RedditImage foundImage = redditImageRepository.findByPermalink(permalink);
+        
+        if (foundImage != null) {
+            LOG.debug("Found image " + permalink + ", updating score");
+            foundImage.setScore(image.getScore());
+            redditImageRepository.save(foundImage);
+        } else {
+            LOG.debug("Persisting " + permalink + ": " + image.getTitle());
+            image.setPersistTime(System.currentTimeMillis());
+            redditImageRepository.save(image);            
         }
     }
     
@@ -140,7 +203,9 @@ public class WebContentService {
         Article foundArticle = articleRepository.findByUrl(url);
         
         if (foundArticle != null) {
-            LOG.debug("Found article " + url + ", not persisitng");
+            LOG.debug("Found article " + url + ", updating score");
+            foundArticle.setScore(link.getScore());
+            articleRepository.save(foundArticle);
         } else {
             LOG.debug("Persisting " + url + ": " + link.getTitle());
             Article article = ArticleUtil.convertRedditLinkToArticle(link);
@@ -153,13 +218,67 @@ public class WebContentService {
         List<Article> articles = fetchTrendingArticles();
         List<YouTubeVideo> youtubeVideos = fetchTrendingYouTubeVideos();
         List<RedditVideo> redditVideos = fetchTrendingRedditVideos();
+        List<Tweet> tweets = fetchTrendingTweets();
+        List<RedditImage> redditImages = fetchTrendingRedditImages();
         
         List<WebContent> webContent = new ArrayList<WebContent>();
         webContent.addAll(articles);
         webContent.addAll(youtubeVideos);
         webContent.addAll(redditVideos);
+        webContent.addAll(tweets);
+        webContent.addAll(redditImages);
         
         return webContent;
+    }
+    
+    
+    public List<Tweet> fetchTrendingTweets() {
+        List<AggregationOperation> ops = new ArrayList<>();
+
+        Long minDate = System.currentTimeMillis() - MAX_TIME_FOR_TWEETS;
+        
+        AggregationOperation dateThreshold = Aggregation.match(Criteria.where("createdAt").gte(minDate));
+        ops.add(dateThreshold);
+        
+        AggregationOperation sort = Aggregation.sort(Direction.DESC, "score");
+        ops.add(sort);
+        
+        AggregationOperation limit = Aggregation.limit(MAX_TWEETS);
+        ops.add(limit);
+         
+        Aggregation aggregation = Aggregation.newAggregation(ops);
+        
+        List<Tweet> tweets = mongoTemplate.aggregate(aggregation, mongoTemplate.getCollectionName(Tweet.class), Tweet.class).getMappedResults();
+//        tweets.forEach(tweet -> {
+//            System.err.println(tweet);
+//        });
+        
+        return tweets;
+    }
+    
+    
+    public List<RedditImage> fetchTrendingRedditImages() {
+        List<AggregationOperation> ops = new ArrayList<>();
+
+        Long minDate = System.currentTimeMillis() - MAX_TIME_FOR_REDDIT_IMAGES;
+        
+        AggregationOperation dateThreshold = Aggregation.match(Criteria.where("created").gte(minDate));
+        ops.add(dateThreshold);
+        
+        AggregationOperation sort = Aggregation.sort(Direction.DESC, "score");
+        ops.add(sort);
+        
+        AggregationOperation limit = Aggregation.limit(MAX_REDDIT_IMAGES);
+        ops.add(limit);
+         
+        Aggregation aggregation = Aggregation.newAggregation(ops);
+        
+        List<RedditImage> images = mongoTemplate.aggregate(aggregation, mongoTemplate.getCollectionName(RedditImage.class), RedditImage.class).getMappedResults();
+//        videos.forEach(video -> {
+//            System.err.println( video.getCreated() + " " + video.getScore() + " " + video.getTitle());
+//        });
+        
+        return images;
     }
     
     
