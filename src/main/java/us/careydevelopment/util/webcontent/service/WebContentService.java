@@ -62,7 +62,7 @@ public class WebContentService {
     private static final Long MAX_REDDIT_IMAGES = 12l;
 
     private static final Long MAX_TIME_FOR_TWEETS = DateConversionUtil.NUMBER_OF_MILLISECONDS_IN_DAY;
-    private static final Long MAX_TWEETS = 12l;
+    private static final Long MAX_TWEETS = 24l;
     
     
     private static WebContentService WEB_CONTENT_SERVICE;

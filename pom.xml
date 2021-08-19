@@ -5,7 +5,7 @@
     <name>Web Content API</name>
     <description>Handles CRUD activities for web content.</description>
     <url>https://github.com/careydevelopment/web-content-api</url>
-    <version>1.3.0-RELEASE</version>
+    <version>1.4.0-RELEASE</version>
     
     <dependencies>
         <dependency>
