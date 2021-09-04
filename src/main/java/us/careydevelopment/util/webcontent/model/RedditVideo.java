@@ -38,7 +38,8 @@ public class RedditVideo extends BaseRedditVideo implements WebContent {
      
     @Override
     public String getSource() {
-        return "Reddit";
+        //TODO: hijacking subreddit as original permalink
+        return this.getSubreddit();
     }
 
     @Override

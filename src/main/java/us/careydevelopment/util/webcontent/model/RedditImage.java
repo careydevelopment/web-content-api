@@ -4,11 +4,11 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import us.careydevelopment.model.api.reddit.BaseRedditVideo;
+import us.careydevelopment.model.api.reddit.BaseRedditImage;
 import us.careydevelopment.util.webcontent.constants.ContentType;
 
 @Document(collection = "#{@environment.getProperty('mongo.redditImage.collection')}")
-public class RedditImage extends BaseRedditVideo implements WebContent {
+public class RedditImage extends BaseRedditImage implements WebContent {
 
     @Id
     private String id;
@@ -38,7 +38,8 @@ public class RedditImage extends BaseRedditVideo implements WebContent {
      
     @Override
     public String getSource() {
-        return "Reddit";
+        //TODO: hijacking subreddit as original permalink
+        return this.getSubreddit();
     }
 
     @Override

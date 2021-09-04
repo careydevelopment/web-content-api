@@ -5,7 +5,7 @@
     <name>Web Content API</name>
     <description>Handles CRUD activities for web content.</description>
     <url>https://github.com/careydevelopment/web-content-api</url>
-    <version>1.4.0-RELEASE</version>
+    <version>1.6.0-SNAPSHOT</version>
     
     <dependencies>
         <dependency>
@@ -89,7 +89,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
             </plugin>
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
                 <version>1.6.7</version>
@@ -143,7 +143,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
         </plugins>  
         <finalName>${project.artifactId}</finalName>
     </build>
