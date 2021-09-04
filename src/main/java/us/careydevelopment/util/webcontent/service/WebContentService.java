@@ -186,7 +186,7 @@ public class WebContentService {
             foundImage.setScore(image.getScore());
             redditImageRepository.save(foundImage);
         } else {
-            LOG.debug("Persisting " + permalink + ": " + image.getTitle());
+            LOG.debug("Persisting image " + permalink + ": " + image.getTitle() + " " + image.getPermalink());
             image.setPersistTime(System.currentTimeMillis());
             redditImageRepository.save(image);            
         }
@@ -216,6 +216,8 @@ public class WebContentService {
     
     public List<WebContent> fetchTrendingContent() {
         List<Article> articles = fetchTrendingArticles();
+        System.err.println("Articles is " + articles);
+        
         List<YouTubeVideo> youtubeVideos = fetchTrendingYouTubeVideos();
         List<RedditVideo> redditVideos = fetchTrendingRedditVideos();
         List<Tweet> tweets = fetchTrendingTweets();
