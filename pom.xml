@@ -2,11 +2,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>us.careydevelopment.util</groupId>
     <artifactId>web-content-api</artifactId>
-    <name>Web Content API</name>
-    <description>Handles CRUD activities for web content.</description>
     <url>https://github.com/careydevelopment/web-content-api</url>
-    <version>1.6.0-RELEASE</version>
-    
+    <name>Web Content API</name>
+    <description>Handles persistence of web content</description>
+    <version>1.6.0</version>
+
     <dependencies>
         <dependency>
             <groupId>us.careydevelopment.util</groupId>
@@ -75,6 +75,7 @@
             <version>1.2.5</version>
         </dependency>
     </dependencies>
+
     
     <properties>
         <java.version>11</java.version>
@@ -89,7 +90,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
             </plugin>
-            <!-- <plugin>
+            <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
                 <version>1.6.7</version>
@@ -117,7 +118,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>2.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -143,15 +144,15 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>-->
-        </plugins>  
+            </plugin>
+        </plugins>
         <finalName>${project.artifactId}</finalName>
     </build>
     
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>https://github.com/careydevelopment/wev-content-api/blob/main/LICENSE</url>
+            <url>https://github.com/careydevelopment/web-content-api/blob/main/LICENSE</url>
         </license>
     </licenses>
     
@@ -173,17 +174,22 @@
             <id>ossrh</id>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
-    </distributionManagement>    
+    </distributionManagement>
     
-    <profiles>
-        <profile>
-            <id>disable-java8-doclint</id>
-            <activation>
-                <jdk>[1.8,)</jdk>
-            </activation>
-            <properties>
-                <additionalparam>-Xdoclint:none</additionalparam>
-            </properties>
-        </profile>
-    </profiles>
 </project>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
