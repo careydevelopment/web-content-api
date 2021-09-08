@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import us.careydevelopment.model.api.reddit.BaseRedditImage;
+import us.careydevelopment.util.webcontent.constants.ContentStatus;
 import us.careydevelopment.util.webcontent.constants.ContentType;
 
 @Document(collection = "#{@environment.getProperty('mongo.redditImage.collection')}")
@@ -13,6 +14,7 @@ public class RedditImage extends BaseRedditImage implements WebContent {
     @Id
     private String id;
     
+    private ContentStatus status = ContentStatus.ACTIVE;    
     private Long persistTime;
 
     
@@ -70,6 +72,13 @@ public class RedditImage extends BaseRedditImage implements WebContent {
     @Override
     public String getContentId() {
         return this.getPermalink();
+    }
+    
+    public ContentStatus getStatus() {
+        return status;
+    }
+    public void setStatus(ContentStatus status) {
+        this.status = status;
     }
         
     @Override
