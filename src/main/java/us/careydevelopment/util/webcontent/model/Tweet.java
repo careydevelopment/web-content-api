@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import us.careydevelopment.model.api.twitter.BaseTweet;
+import us.careydevelopment.util.webcontent.constants.ContentStatus;
 import us.careydevelopment.util.webcontent.constants.ContentType;
 
 @Document(collection = "#{@environment.getProperty('mongo.tweet.collection')}")
@@ -13,7 +14,7 @@ public class Tweet extends BaseTweet implements WebContent {
     private String id;
     
     private Long persistTime;
-    
+    private ContentStatus status = ContentStatus.ACTIVE;
         
     public String getId() {
         return id;
@@ -88,4 +89,10 @@ public class Tweet extends BaseTweet implements WebContent {
         return null;
     }
 
+    public ContentStatus getStatus() {
+        return status;
+    }
+    public void setStatus(ContentStatus status) {
+        this.status = status;
+    }
 }

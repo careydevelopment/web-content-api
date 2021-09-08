@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import us.careydevelopment.model.api.reddit.BaseRedditVideo;
+import us.careydevelopment.util.webcontent.constants.ContentStatus;
 import us.careydevelopment.util.webcontent.constants.ContentType;
 
 @Document(collection = "#{@environment.getProperty('mongo.redditVideo.collection')}")
@@ -14,7 +15,7 @@ public class RedditVideo extends BaseRedditVideo implements WebContent {
     private String id;
     
     private Long persistTime;
-
+    private ContentStatus status = ContentStatus.ACTIVE;
     
     public String getId() {
         return id;
@@ -38,7 +39,8 @@ public class RedditVideo extends BaseRedditVideo implements WebContent {
      
     @Override
     public String getSource() {
-        return "Reddit";
+        //TODO: hijacking subreddit as original permalink
+        return this.getSubreddit();
     }
 
     @Override
@@ -69,6 +71,13 @@ public class RedditVideo extends BaseRedditVideo implements WebContent {
     @Override
     public String getContentId() {
         return this.getPermalink();
+    }
+    
+    public ContentStatus getStatus() {
+        return status;
+    }
+    public void setStatus(ContentStatus status) {
+        this.status = status;
     }
         
     @Override

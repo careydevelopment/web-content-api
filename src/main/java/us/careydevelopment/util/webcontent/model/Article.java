@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import us.careydevelopment.util.webcontent.constants.ContentStatus;
 import us.careydevelopment.util.webcontent.constants.ContentType;
 import us.careydevelopment.util.webcontent.constants.OriginalSource;
 
@@ -24,6 +25,7 @@ public class Article implements WebContent {
     private OriginalSource originalSource;
     private String siteName;
     private Long publishTime;
+    private ContentStatus status = ContentStatus.ACTIVE;
     
     public String getTitle() {
         return title;
@@ -120,6 +122,13 @@ public class Article implements WebContent {
     @Override
     public String getSource() {
         return siteName;
+    }
+    
+    public ContentStatus getStatus() {
+        return status;
+    }
+    public void setStatus(ContentStatus status) {
+        this.status = status;
     }
     
     public String toString() {

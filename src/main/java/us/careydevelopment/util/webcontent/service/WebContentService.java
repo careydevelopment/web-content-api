@@ -2,6 +2,7 @@ package us.careydevelopment.util.webcontent.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 import us.careydevelopment.model.api.reddit.RedditLink;
 import us.careydevelopment.util.date.DateConversionUtil;
 import us.careydevelopment.util.webcontent.config.WebContentApiConfig;
+import us.careydevelopment.util.webcontent.constants.ContentStatus;
+import us.careydevelopment.util.webcontent.constants.ContentType;
 import us.careydevelopment.util.webcontent.model.Article;
 import us.careydevelopment.util.webcontent.model.RedditImage;
 import us.careydevelopment.util.webcontent.model.RedditVideo;
@@ -186,7 +189,7 @@ public class WebContentService {
             foundImage.setScore(image.getScore());
             redditImageRepository.save(foundImage);
         } else {
-            LOG.debug("Persisting " + permalink + ": " + image.getTitle());
+            LOG.debug("Persisting image " + permalink + ": " + image.getTitle() + " " + image.getPermalink());
             image.setPersistTime(System.currentTimeMillis());
             redditImageRepository.save(image);            
         }
@@ -216,6 +219,7 @@ public class WebContentService {
     
     public List<WebContent> fetchTrendingContent() {
         List<Article> articles = fetchTrendingArticles();
+        
         List<YouTubeVideo> youtubeVideos = fetchTrendingYouTubeVideos();
         List<RedditVideo> redditVideos = fetchTrendingRedditVideos();
         List<Tweet> tweets = fetchTrendingTweets();
@@ -239,6 +243,9 @@ public class WebContentService {
         
         AggregationOperation dateThreshold = Aggregation.match(Criteria.where("createdAt").gte(minDate));
         ops.add(dateThreshold);
+        
+        AggregationOperation status = Aggregation.match(Criteria.where("status").ne(ContentStatus.DELETED));
+        ops.add(status);
         
         AggregationOperation sort = Aggregation.sort(Direction.DESC, "score");
         ops.add(sort);
@@ -265,6 +272,9 @@ public class WebContentService {
         AggregationOperation dateThreshold = Aggregation.match(Criteria.where("created").gte(minDate));
         ops.add(dateThreshold);
         
+        AggregationOperation status = Aggregation.match(Criteria.where("status").ne(ContentStatus.DELETED));
+        ops.add(status);
+        
         AggregationOperation sort = Aggregation.sort(Direction.DESC, "score");
         ops.add(sort);
         
@@ -289,6 +299,9 @@ public class WebContentService {
         
         AggregationOperation dateThreshold = Aggregation.match(Criteria.where("created").gte(minDate));
         ops.add(dateThreshold);
+        
+        AggregationOperation status = Aggregation.match(Criteria.where("status").ne(ContentStatus.DELETED));
+        ops.add(status);
         
         AggregationOperation sort = Aggregation.sort(Direction.DESC, "score");
         ops.add(sort);
@@ -315,6 +328,9 @@ public class WebContentService {
         AggregationOperation dateThreshold = Aggregation.match(Criteria.where("persistTime").gte(minDate));
         ops.add(dateThreshold);
         
+        AggregationOperation status = Aggregation.match(Criteria.where("status").ne(ContentStatus.DELETED));
+        ops.add(status);
+        
         AggregationOperation sort = Aggregation.sort(Direction.DESC, "viewCount");
         ops.add(sort);
         
@@ -340,6 +356,9 @@ public class WebContentService {
         AggregationOperation dateThreshold = Aggregation.match(Criteria.where("publishTime").gte(minDate));
         ops.add(dateThreshold);
         
+        AggregationOperation status = Aggregation.match(Criteria.where("status").ne(ContentStatus.DELETED));
+        ops.add(status);
+        
         AggregationOperation sort = Aggregation.sort(Direction.DESC, "score");
         ops.add(sort);
         
@@ -354,5 +373,79 @@ public class WebContentService {
 //        });
         
         return articles;
+    }
+    
+    
+    public void deleteContent(String contentId, ContentType type) {
+        if (contentId != null && type != null) {
+            if (type.equals(ContentType.ARTICLE)) {
+                deleteArticle(contentId);
+            } else if (type.equals(ContentType.REDDIT_IMAGE)) {
+                deleteRedditImage(contentId);
+            } else if (type.equals(ContentType.REDDIT_VIDEO)) {
+                deleteRedditVideo(contentId);
+            } else if (type.equals(ContentType.TWEET)) {
+                deleteTweet(contentId);
+            } else if (type.equals(ContentType.YOUTUBE_VIDEO)) {
+                deleteYouTubeVideo(contentId);
+            } else {
+                LOG.warn("No match on delete for content type: " + type);
+            }
+        }
+    }
+    
+    
+    public void deleteYouTubeVideo(String contentId) {
+        Optional<YouTubeVideo> videoOpt = youTubeVideoRepository.findById(contentId);
+        
+        if (videoOpt.isPresent()) {
+            YouTubeVideo video = videoOpt.get();
+            video.setStatus(ContentStatus.DELETED);
+            youTubeVideoRepository.save(video);
+        }
+    }
+    
+    
+    public void deleteTweet(String contentId) {
+        Optional<Tweet> tweetOpt = tweetRepository.findById(contentId);
+        
+        if (tweetOpt.isPresent()) {
+            Tweet tweet = tweetOpt.get();
+            tweet.setStatus(ContentStatus.DELETED);
+            tweetRepository.save(tweet);
+        }
+    }
+    
+    
+    public void deleteRedditVideo(String contentId) {
+        Optional<RedditVideo> videoOpt = redditVideoRepository.findById(contentId);
+        
+        if (videoOpt.isPresent()) {
+            RedditVideo video = videoOpt.get();
+            video.setStatus(ContentStatus.DELETED);
+            redditVideoRepository.save(video);
+        }
+    }
+    
+    
+    public void deleteRedditImage(String contentId) {
+        Optional<RedditImage> imageOpt = redditImageRepository.findById(contentId);
+        
+        if (imageOpt.isPresent()) {
+            RedditImage image = imageOpt.get();
+            image.setStatus(ContentStatus.DELETED);
+            redditImageRepository.save(image);
+        }
+    }
+    
+    
+    public void deleteArticle(String contentId) {
+        Optional<Article> articleOpt = articleRepository.findById(contentId);
+        
+        if (articleOpt.isPresent()) {
+            Article article = articleOpt.get();
+            article.setStatus(ContentStatus.DELETED);
+            articleRepository.save(article);
+        }
     }
 }
