@@ -5,7 +5,7 @@
     <url>https://github.com/careydevelopment/web-content-api</url>
     <name>Web Content API</name>
     <description>Handles persistence of web content</description>
-    <version>1.7.0</version>
+    <version>1.8.0</version>
 
     <dependencies>
         <dependency>
