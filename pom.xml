@@ -16,7 +16,7 @@
         <dependency>
             <groupId>us.careydevelopment.model.api</groupId>
             <artifactId>api-flyweights</artifactId>
-            <version>1.4.0-RELEASE</version>
+            <version>1.4.1-RELEASE</version>
         </dependency>  
         <dependency>
             <groupId>us.careydevelopment.util</groupId>
