@@ -31,7 +31,7 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
     
     @Value("${mongodb.webcontent.db}")
     private String mongoConnection;
-
+ 
     @Value("${mongodb.webcontent.name}")
     private String mongoDatabaseName;
     
