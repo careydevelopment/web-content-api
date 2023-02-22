@@ -29,10 +29,10 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     private static final Logger LOG = LoggerFactory.getLogger(MongoConfig.class);
     
-    @Value("${mongo.db}")
+    @Value("${mongodb.webcontent.db}")
     private String mongoConnection;
-
-    @Value("${mongo.db.name}")
+ 
+    @Value("${mongodb.webcontent.name}")
     private String mongoDatabaseName;
     
     @Override
